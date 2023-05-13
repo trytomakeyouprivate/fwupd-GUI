@@ -1,0 +1,8 @@
+# This rule checks if the machine is 70% charged or if it is connected to AC
+# If one of these is fulfilled it activates systemd unit "charged.service"
+
+SUBSYSTEM=="power_supply", ATTR{online}=="1" \
+  RUN+="/usr/bin/systemctl start charged.service"
+
+SUBSYSTEM=="power_supply", ATTR{capacity}=="[7-9][0-9]|100" \
+  RUN+="/usr/bin/systemctl start charged.service"
