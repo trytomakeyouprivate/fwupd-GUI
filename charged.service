@@ -1,0 +1,11 @@
+[Unit]
+Description=Marker that is active when machine has 70% power or is connected to AC
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/true
+
+[Install]
+WantedBy=multi-user.target
