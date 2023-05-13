@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# this command does:
+# 1. Get a reformatted list of available devices with firmware updater set to "-y" for automatic action
+# 2. If the device list is not empty, go on
+# 3. The user is informed about the update, the decision is coded as 0=true or 1=false and stored as "result"
+# 3.1 True: The update process is visually shown using zenity process. The firmware update ends with a reboot.
+# 3.2 False: The user gets a notify-send note that they will be reminded later
+
+
+# Check for updates, reformat the output
+devices=$(fwupdmgr refresh && LANG=C fwupdmgr get-updates -y | awk '/^[^ ]/{device=$1" "$2} /^  New version:/{print device; device=""}' | paste -sd "," -) && \
+
+
+# check if there is output
+if [ -z "devices" ];
+    then exit;
+# if yes, inform user
+else result=$(zenity --question --title "Firmware updates available" --text "Devices $devices will be upgraded. Do you want to apply the updates now?" --no-wrap --ok-label "Yes" --cancel-label "Skip")
+
+
+    # "--no-wrap" transforms zenity output to 0=true and 1=false.
+    # if user clicks "Yes", do updates
+
+
+    if [ "$result" -eq 0 ];
+        then (echo 50;
+            echo "# Updating firmware...";
+            sleep 1;
+            fwupdmgr update -y;
+            echo 100;
+            echo "# Done. Reboot to finish.") | zenity --title "Firmware updates" --progress --auto-kill && exit && reboot;
+
+
+    # display note to update manually or be reminded later
+    else notify-send -t 20000 -a 'Firmware updates' 'Updates skipped' 'You will be reminded tomorrow.\nUse "fwupdmgr update -y" to apply them manually.\n\nMake sure you have enough battery or are connected to a power supply.';
+
+    fi;
+
+fi;
