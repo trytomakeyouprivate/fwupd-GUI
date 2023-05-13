@@ -1,11 +1,12 @@
 [Unit]
-Description=Automatic Firmware updates every day, dependenc on ac.target
+Description=Automatic Firmware updates
 Documentation=man:fwupd
+Requires=charged.service
 
 [Timer]
-OnBootSec=10m
-OnCalendar=0/6:00:00
+OnCalendar=*-*-* 19:00:00
 Persistent=true
+Unit=firmwareupdate.service
 
 [Install]
-WantedBy=ac.target
+WantedBy=timers.target
