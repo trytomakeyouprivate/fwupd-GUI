@@ -30,6 +30,9 @@ Idea:
 ToDo:
 
 - testing, troubleshooting
+- testing fwupdmgr output reformatting
+- testing no-action scenarios
+- fixing buttons in zenity
 - writing a noninvasive log about successful update checks with none available
 
 Contributions welcome!
