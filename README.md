@@ -30,6 +30,7 @@ Idea:
 ToDo:
 
 - testing, troubleshooting
+- fixing systemctl enabling
 - testing fwupdmgr output reformatting
 - testing no-action scenarios
 - fixing buttons in zenity
