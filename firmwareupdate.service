@@ -1,0 +1,7 @@
+[Unit]
+Description=Execute firmware update script. This uses a zentity dialog for user interaction. Without available updates it will be silent
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/etc/firmwareupdate
